@@ -1,0 +1,58 @@
+name: Command Demo
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+    - main
+    - master
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  demo: #-----------------------------------------------------------------------
+    name: Demo Functionality
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Check out source code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+        coverage: none
+        tools: composer,cs2pr
+      env:
+        COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install Composer dependencies & cache dependencies
+      uses: "ramsey/composer-install@v2"
+      env:
+        COMPOSER_ROOT_VERSION: dev-${{ github.event.repository.default_branch }}
+
+    - name: Install WP-CLI
+      run: |
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        chmod +x wp-cli.phar
+        mkdir -p bin
+        mv wp-cli.phar bin/wp
+        echo "${PWD}/bin" >> $GITHUB_PATH
+
+    - name: Install package
+      run: wp package install .
+
+    - name: Validate example readmes
+      continue-on-error: true
+      run: |
+        wp plugin validate-readme --format=github-actions examples/full.txt
+        wp plugin validate-readme --format=github-actions examples/hello-dolly.txt
+        wp plugin validate-readme --format=github-actions --strict examples/full.txt
+        wp plugin validate-readme --format=github-actions --strict examples/hello-dolly.txt
