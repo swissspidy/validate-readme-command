@@ -111,7 +111,7 @@ class Validator {
 		foreach ( $readme->upgrade_notice as $version => $notice ) {
 			if ( strlen( $notice ) > 150 ) {
 				$warnings[] = sprintf(
-					'The upgrade notice for "%s" exceeds the limit of 30 characters',
+					'The upgrade notice for "%s" exceeds the limit of 300 characters',
 					$version
 				);
 			}
