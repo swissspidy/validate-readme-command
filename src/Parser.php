@@ -258,7 +258,7 @@ class Parser {
 			if ( isset( $this->valid_headers[ $key ] ) ) {
 				$headers[ $this->valid_headers[ $key ] ] = trim( $value );
 			}
-		} while ( ( $line = array_shift( $contents ) ) !== null );
+		} while ( ( $line = array_shift( $contents ) ) !== null ); // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 		array_unshift( $contents, $line );
 
 		if ( ! empty( $headers['tags'] ) ) {
@@ -300,7 +300,7 @@ class Parser {
 		}
 
 		// Parse the short description.
-		while ( ( $line = array_shift( $contents ) ) !== null ) {
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( empty( $trimmed ) ) {
 				$this->short_description .= "\n";
@@ -326,7 +326,7 @@ class Parser {
 		$this->sections = array_fill_keys( $this->expected_sections, '' );
 		$current        = '';
 		$section_name   = '';
-		while ( ( $line = array_shift( $contents ) ) !== null ) {
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( empty( $trimmed ) ) {
 				$current .= "\n";
@@ -405,7 +405,7 @@ class Parser {
 		// Sanitize and trim the short_description to match requirements.
 		$this->short_description = $this->sanitize_text( $this->short_description );
 		$this->short_description = $this->parse_markdown( $this->short_description );
-		$this->short_description = trim( strip_tags( $this->short_description ) );
+		$this->short_description = trim( strip_tags( $this->short_description ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 		$this->short_description = $this->trim_length( $this->short_description );
 
 		if ( isset( $this->sections['screenshots'] ) ) {
@@ -449,7 +449,7 @@ class Parser {
 	 * @return string
 	 */
 	protected function get_first_nonwhitespace( &$contents ) {
-		while ( ( $line = array_shift( $contents ) ) !== null ) {
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( ! empty( $trimmed ) ) {
 				break;
@@ -522,7 +522,7 @@ class Parser {
 	 */
 	protected function sanitize_text( $text ) {
 		// not fancy
-		return trim( strip_tags( $text ) );
+		return trim( strip_tags( $text ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
 	}
 
 	/**
@@ -662,7 +662,7 @@ class Parser {
 		* Standard Markdown headings (## .. and == ... ==) are used, but if none are present.
 		* full line bolding will be used as a heading style.
 		*/
-		$heading_style = 'bold'; // 'heading' or 'bold'
+		$heading_style = 'bold';
 		foreach ( $trimmed_lines as $trimmed ) {
 			if ( $trimmed && ( '#' === $trimmed[0] || '=' === $trimmed[0] ) ) {
 				$heading_style = 'heading';
