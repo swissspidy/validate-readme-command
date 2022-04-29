@@ -6,6 +6,7 @@ vendor/
 *.tar.gz
 *.swp
 *.txt
+!examples/*.txt
 *.log
 composer.lock
 phpunit.xml
