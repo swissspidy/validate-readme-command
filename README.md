@@ -3,7 +3,7 @@ swissspidy/validate-readme-command
 
 Validate WordPress plugin readme files
 
-[![Testing](https://github.com/swissspidy/validate-readme-command/actions/workflows/testing.yml/badge.svg)](https://github.com/swissspidy/validate-readme-command/actions/workflows/testing.yml) [![Build Status](https://travis-ci.org/swissspidy/validate-readme-command.svg?branch=master)](https://travis-ci.org/swissspidy/validate-readme-command)
+[![Testing](https://github.com/swissspidy/validate-readme-command/actions/workflows/testing.yml/badge.svg)](https://github.com/swissspidy/validate-readme-command/actions/workflows/testing.yml)
 
 Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contributing) | [Support](#support)
 
@@ -34,7 +34,23 @@ wp plugin validate-readme <readme> [--format=<format>] [--strict]
     # Validate the Hello Dolly readme
     $ wp plugin validate-readme \
            https://plugins.svn.wordpress.org/hello-dolly/trunk/readme.txt
-    Success: Hello World!
+    Warning: The `Requires PHP` field is missing. It should be defined here, or in your main plugin file.
+    Warning: No `== Frequently Asked Questions ==` section was found
+    Warning: No `== Changelog ==` section was found
+    Warning: No `== Upgrade Notice ==` section was found
+    Warning: No `== Screenshots ==` section was found
+    Warning: No donate link was found
+    Success: Readme successfully validated.
+
+    # Print output with GitHub Actions workflow annotations
+    $ wp plugin validate-readme readme.txt --format=github-actions
+    ::notice file=readme.txt::No donate link was found
+    Success: Readme successfully validated.
+
+    # Perform strict check
+    $ wp plugin validate-readme readme.txt --strict
+    Error: No donate link was found
+    Error: Readme validated with errors.
 
 ## Installing
 
