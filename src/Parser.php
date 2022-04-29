@@ -60,6 +60,11 @@ class Parser {
 	public $short_description = '';
 
 	/**
+	 * @var int
+	 */
+	public $short_description_length = 0;
+
+	/**
 	 * @var string
 	 */
 	public $license = '';
@@ -406,6 +411,9 @@ class Parser {
 		$this->short_description = $this->sanitize_text( $this->short_description );
 		$this->short_description = $this->parse_markdown( $this->short_description );
 		$this->short_description = trim( strip_tags( $this->short_description ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags
+
+		$this->short_description_length = strlen( $this->short_description );
+
 		$this->short_description = $this->trim_length( $this->short_description );
 
 		if ( isset( $this->sections['screenshots'] ) ) {

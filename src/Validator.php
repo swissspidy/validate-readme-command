@@ -96,7 +96,7 @@ class Validator {
 			);
 		}
 
-		if ( strlen( $readme->short_description ) > 150 ) {
+		if ( $readme->short_description_length > 150 ) {
 			$warnings[] = 'The short description exceeds the limit of 150 characters';
 		}
 
