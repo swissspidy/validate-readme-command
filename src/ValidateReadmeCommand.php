@@ -66,7 +66,15 @@ class ValidateReadmeCommand extends WP_CLI_Command {
 			WP_CLI::error( 'No readme provided' );
 		}
 
-		var_dump( $args[0], realpath( $args[0] ), file_exists( $args[0] ), file_exists( realpath( $args[0] ) ) );
+		var_dump(
+			$args[0],
+			realpath( $args[0] ),
+			file_exists( $args[0] ),
+			file_exists( realpath( $args[0] ) ),
+			getcwd(),
+			scandir( getcwd() ),
+			scandir( 'examples' )
+		);
 
 		if ( realpath( $args[0] ) ) {
 			$filename       = realpath( $args[0] );
