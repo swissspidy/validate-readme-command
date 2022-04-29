@@ -74,8 +74,7 @@ class ValidateReadmeCommand extends WP_CLI_Command {
 			WP_CLI\Utils\parse_url( $args[0], PHP_URL_SCHEME, false )
 		) {
 			$response = WP_CLI\Utils\http_request( 'GET', $args[0] );
-			var_dump($response);
-			if ( 0 !== strpos( $response->status_code, 20 ) ) {
+			if ( 0 !== strpos( (string) $response->status_code, '20' ) ) {
 				WP_CLI::error( 'Incorrect readme URL provided' );
 			}
 

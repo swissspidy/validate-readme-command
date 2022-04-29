@@ -139,7 +139,6 @@ Feature: Validate WordPress plugin readme
       """
       Please change `Plugin Name` to reflect the actual name of your plugin.
       """
-    And STDOUT should be empty
 
   Scenario: Validates remote plugin readme.txt file
 
