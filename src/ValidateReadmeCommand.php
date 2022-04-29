@@ -69,10 +69,12 @@ class ValidateReadmeCommand extends WP_CLI_Command {
 		if ( realpath( $args[0] ) ) {
 			$filename       = realpath( $args[0] );
 			$readme_content = file_get_contents( $filename );
-		} elseif ( is_array( WP_CLI\Utils\parse_url( $args[0], -1, false ) )
-			&& WP_CLI\Utils\parse_url( $args[0], PHP_URL_SCHEME, false )
+		} elseif (
+			is_array( WP_CLI\Utils\parse_url( $args[0], -1, false ) ) &&
+			WP_CLI\Utils\parse_url( $args[0], PHP_URL_SCHEME, false )
 		) {
 			$response = WP_CLI\Utils\http_request( 'GET', $args[0] );
+			var_dump($response);
 			if ( 0 !== strpos( $response->status_code, 20 ) ) {
 				WP_CLI::error( 'Incorrect readme URL provided' );
 			}
