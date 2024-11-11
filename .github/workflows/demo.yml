@@ -34,7 +34,7 @@ jobs:
         COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install Composer dependencies & cache dependencies
-      uses: "ramsey/composer-install@v2"
+      uses: "ramsey/composer-install@v3"
       env:
         COMPOSER_ROOT_VERSION: dev-${{ github.event.repository.default_branch }}
 
