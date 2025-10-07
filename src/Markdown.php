@@ -18,7 +18,7 @@ class Markdown extends MarkdownExtra {
 	 * @param  string $text
 	 * @return string
 	 */
-	public function transform( $text ) {
+	public function transform( string $text ): string {
 		$text = $this->code_trick( trim( $text ) );
 
 		// Convert any `= Section =` headers into a real header.
@@ -70,7 +70,7 @@ class Markdown extends MarkdownExtra {
 	 * @return string
 	 */
 	protected function code_trick_decodeit_cb( $matches ) {
-		$trans_table = array_flip( get_html_translation_table( HTML_ENTITIES ) );
+		$trans_table = array_flip( get_html_translation_table( HTML_ENTITIES, \ENT_QUOTES | \ENT_SUBSTITUTE ) );
 
 		$text = $matches[2];
 		$text = strtr( $text, $trans_table );

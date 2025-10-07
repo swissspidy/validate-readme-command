@@ -157,7 +157,5 @@ class Validator {
 		}
 
 		return compact( 'errors', 'warnings', 'notes' );
-
 	}
-
 }

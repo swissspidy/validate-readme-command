@@ -159,24 +159,24 @@ class Parser {
 	/**
 	 * Parser constructor.
 	 *
-	 * @param string $string A Filepath, URL, or contents of a readme to parse.
+	 * @param string $readme A Filepath, URL, or contents of a readme to parse.
 	 *
 	 *                       Note: data:text/plain streams are URLs and need to pass through
 	 *                       the parse_readme() function, not the parse_readme_contents() function, so
 	 *                       that they can be turned from a URL into plain text via the stream.
 	 */
-	public function __construct( $string ) {
-		if ( preg_match( '!^https?://!i', $string )
-			|| preg_match( '!^data:text/plain!i', $string )
+	public function __construct( $readme ) {
+		if ( preg_match( '!^https?://!i', $readme )
+			|| preg_match( '!^data:text/plain!i', $readme )
 			|| (
 			// If it's longer than the Filesystem path limit or contains newlines, it's not worth a file_exists() check.
-			strlen( $string ) <= PHP_MAXPATHLEN
-			&& false === strpos( $string, "\n" )
-			&& file_exists( $string ) )
+			strlen( $readme ) <= PHP_MAXPATHLEN
+			&& false === strpos( $readme, "\n" )
+			&& file_exists( $readme ) )
 		) {
-			$this->parse_readme( $string );
-		} elseif ( $string ) {
-			$this->parse_readme_contents( $string );
+			$this->parse_readme( $readme );
+		} elseif ( $readme ) {
+			$this->parse_readme_contents( $readme );
 		}
 	}
 
@@ -263,7 +263,7 @@ class Parser {
 			if ( isset( $this->valid_headers[ $key ] ) ) {
 				$headers[ $this->valid_headers[ $key ] ] = trim( $value );
 			}
-		} while ( ( $line = array_shift( $contents ) ) !== null ); // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+		} while ( ( $line = array_shift( $contents ) ) !== null ); // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 		array_unshift( $contents, $line );
 
 		if ( ! empty( $headers['tags'] ) ) {
@@ -305,7 +305,7 @@ class Parser {
 		}
 
 		// Parse the short description.
-		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( empty( $trimmed ) ) {
 				$this->short_description .= "\n";
@@ -331,7 +331,7 @@ class Parser {
 		$this->sections = array_fill_keys( $this->expected_sections, '' );
 		$current        = '';
 		$section_name   = '';
-		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( empty( $trimmed ) ) {
 				$current .= "\n";
@@ -457,7 +457,7 @@ class Parser {
 	 * @return string
 	 */
 	protected function get_first_nonwhitespace( &$contents ) {
-		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+		while ( ( $line = array_shift( $contents ) ) !== null ) {  // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
 			$trimmed = trim( $line );
 			if ( ! empty( $trimmed ) ) {
 				break;
@@ -486,7 +486,7 @@ class Parser {
 	 */
 	protected function trim_length( $desc, $length = 150 ) {
 		// Apply the length restriction without counting html entities.
-		$str_length = mb_strlen( html_entity_decode( $desc ) ?: $desc );
+		$str_length = mb_strlen( html_entity_decode( $desc, \ENT_QUOTES | \ENT_SUBSTITUTE ) ?: $desc );
 
 		if ( $str_length > $length ) {
 			$desc = mb_substr( $desc, 0, $length );
