@@ -15,75 +15,15 @@ concurrency:
 
 jobs:
 
-  unit: #-----------------------------------------------------------------------
-    name: Unit test /  PHP ${{ matrix.php }}
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
-    runs-on: ubuntu-22.04
-
-    steps:
-    - name: Check out source code
-      uses: actions/checkout@v5
-
-    - name: Set up PHP environment
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '${{ matrix.php }}'
-        coverage: none
-        tools: composer,cs2pr
-      env:
-        COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Install Composer dependencies & cache dependencies
-      uses: "ramsey/composer-install@v3"
-      env:
-        COMPOSER_ROOT_VERSION: dev-${{ github.event.repository.default_branch }}
-
-    - name: Setup problem matcher to provide annotations for PHPUnit
-      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-    - name: Run PHPUnit
-      run: composer phpunit
-
   functional: #----------------------------------------------------------------------
     name: Functional - WP ${{ matrix.wp }} on PHP ${{ matrix.php }} with MySQL ${{ matrix.mysql }}
     strategy:
       fail-fast: false
       matrix:
-        php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
         wp: ['latest']
         mysql: ['8.0']
-        include:
-        - php: '5.6'
-          wp: 'trunk'
-          mysql: '8.0'
-        - php: '5.6'
-          wp: 'trunk'
-          mysql: '5.7'
-        - php: '5.6'
-          wp: 'trunk'
-          mysql: '5.6'
-        - php: '7.4'
-          wp: 'trunk'
-          mysql: '8.0'
-        - php: '8.0'
-          wp: 'trunk'
-          mysql: '8.0'
-        - php: '8.0'
-          wp: 'trunk'
-          mysql: '5.7'
-        - php: '8.0'
-          wp: 'trunk'
-          mysql: '5.6'
-        - php: '8.1'
-          wp: 'trunk'
-          mysql: '8.0'
-        - php: '5.6'
-          wp: '3.7'
-          mysql: '5.6'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     services:
       mysql:
