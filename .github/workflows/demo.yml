@@ -6,7 +6,6 @@ on:
   push:
     branches:
     - main
-    - master
 
 # Cancels all previous workflow runs for the same branch that have not yet completed.
 concurrency:
@@ -18,7 +17,7 @@ jobs:
 
   demo: #-----------------------------------------------------------------------
     name: Demo Functionality
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Check out source code
