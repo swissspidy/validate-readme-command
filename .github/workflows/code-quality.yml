@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out source code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Set up PHP environment
       uses: shivammathur/setup-php@v2
@@ -43,7 +43,7 @@ jobs:
 
     steps:
     - name: Check out source code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Set up PHP environment
       uses: shivammathur/setup-php@v2
